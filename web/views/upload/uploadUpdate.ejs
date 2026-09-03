@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>파일업로드</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script type="text/javascript" language="javascript">
+$(function(){
+     $("#uploadbutton").click(function(){
+       var formData = new FormData();
+       formData.append("userfile",$("input[name=userfile]")[0].files[0]);
+          $.ajax({
+            url: '/uploadUpdate',
+            data: formData,
+            processData: false,
+            contentType: false,
+            type: 'POST',
+            error:function(){
+              window.location.reload();
+            },success:function(fileDetail){
+              var filejson = (typeof fileDetail === 'string') ? JSON.parse(fileDetail) : fileDetail;
+               window.opener.document.getElementById("originalFileName").value = filejson.originalFileName;
+               window.opener.document.getElementById("savedFileName").value = filejson.savedFileName;
+               window.opener.document.getElementById("fileSize").value = filejson.fileSize;
+               window.opener.document.getElementById("filePath").value = filejson.filePath;
+               window.close();
+            }
+          });
+    });
+})
+</script>
+
+  </head>
+  <body>
+      <input type="file" name="userfile"/>
+      <input type="button" id="uploadbutton" value="확인">
+  </body>
+</html>

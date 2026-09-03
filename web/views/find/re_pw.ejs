@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>비밀번호 찾기</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+    <link href="/stylesheet/sign.css" rel="stylesheet" type="text/css">
+  </head>
+  <body>
+    <div class="space-medium">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 col-lg-offset-3 col-md-7 col-md-offset-3 col-sm-10 col-sm-offset-1 col-xs-10 col-xs-offset-1">
+                    <div class="account-holder">
+                         <!--login-form-->
+                        <h3>비밀번호 재설정</h3>
+                        <section class="messages"> <p class=" text-danger"><%= message %> </p></section>
+                        <br>
+                        <div class="row">
+                            <form action="/re_pw" method="post" class="login-form">
+                              <input type="hidden" name="id" value="<%= (typeof rows !== 'undefined' && rows && rows[0]) ? rows[0].id : '' %>"/>
+                                <div class="col-lg-12 col-md-12 col-sm-12">
+                                    <div class="form-group">
+                                        <label class="control-label required" for="password">비밀번호</label>
+                                        <input id="password" name="password" type="password" class="form-control" placeholder="영문, 숫자, 특수문자 조합. 8-16자">
+                                    </div>
+                                </div>
+                                <div class="col-lg-12 col-md-12 col-sm-12">
+                                    <div class="form-group">
+                                        <label class="control-label required" for="repassword">비밀번호 확인</label>
+                                        <input id="repassword" name="repassword" type="password" class="form-control" placeholder="비밀번호 재입력">
+                                    </div>
+                                </div>
+                                <div class="col-lg-12 col-md-12 col-sm-12">
+                                    <button class="btn btn-primary btn-block">확인</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+             </div>
+          </div>
+      </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+  </body>
+</html>

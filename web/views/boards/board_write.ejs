@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>글쓰기</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+    <link href="/stylesheet/board.css" rel="stylesheet" type="text/css">
+  </head>
+  <body>
+    <nav class="navbar navbar-inverse sidebar" role="navigation">
+      <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <h3><p class="text-center"><a href="/board_list" class="text-muted nounderline">스터디 게시판</a></p></h3>
+        </div>
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+          <ul class="nav navbar-nav">
+            <br>
+              <li ><a href="/board_list">자유게시판<span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-th-list"></span></a></li>
+              <% if (userId) { %>
+                <li ><a href="/logout">로그아웃<span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-log-out"></span></a></li>
+              <% } else { %>
+                <li ><a href="/login">로그인<span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-log-in"></span></a></li>
+              <% } %>
+          </ul>
+        </div>
+      </div>
+    </nav>
+      <div class="main">
+          <div class="main2">
+            <h4><strong>글쓰기</strong></h4><br><br>
+            <div class="row">
+              <div class="well well-sm">
+                <fieldset>
+                <form action="/board_write" method="post">
+                  <!-- title input-->
+                  <div class="form-group">
+                    <div class="col-md-12">
+                      <label class="col-md-2 md2 control-label title" for="title">제목</label>
+                      <div class="">
+                      <input name="post_title" type="text" placeholder="제목을 입력해주세요." class="form-control">
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Message body -->
+                  <div class="form-group">
+                    <div class="col-md-12">
+                        <br><label for="message">내용</label>
+                      <textarea class="form-control" name="post_content" placeholder="내용을 입력해주세요" rows="15"></textarea><br>
+                    </div>
+                  </div>
+                  <button type="submit" class="btn btn-primary btn-md pull-right btnwrite">글쓰기</button>
+                </form>
+                </fieldset>
+              </div>
+            </div>
+          </div>
+      </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+  </body>
+</html>

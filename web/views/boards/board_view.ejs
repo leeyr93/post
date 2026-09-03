@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>스터디 게시판</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+    <link href="/stylesheet/board.css" rel="stylesheet" type="text/css">
+  </head>
+  <body>
+    <nav class="navbar navbar-inverse sidebar" role="navigation">
+      <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <h3><p class="text-center"><a href="/board_list" class="text-muted nounderline">스터디 게시판</a></p></h3>
+        </div>
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+          <ul class="nav navbar-nav">
+              <li ><br><a href="/board_list">자유게시판<span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-th-list"></span></a></li>
+              <% if (userId) { %>
+                <li ><a href="/logout">로그아웃<span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-log-out"></span></a></li>
+              <% } else { %>
+                <li ><a href="/login">로그인<span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-log-in"></span></a></li>
+              <% } %>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <div class="main">
+      <h4><strong>글상세</strong></h4>
+      <% if(rows[0].post_id==userId){ %>
+        <div id="boardModal" class="modal fade in">
+          <div class="modal-dialog">
+             <div class="modal-content">
+                 <div class="modal-header">
+                     <a class="btn btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span></a>
+                     <h4 class="modal-title">글삭제</h4>
+                 </div>
+                 <div class="modal-body">
+                     <h4>해당 글을 삭제하시겠습니까?</h4>
+                 </div>
+                 <div class="modal-footer">
+                     <div class="btn-group">
+                         <button class="btn btn-danger" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span>취소</button>
+                         <a href="/board_delete/<%=rows[0].post_num%>" class="btn btn-primary">확인<span class=" pull-left glyphicon glyphicon-check"></span></a>
+                     </div>
+                 </div>
+             </div><!-- /.modal-content -->
+          </div><!-- /.modal-dalog -->
+        </div><!-- /.modal -->
+        <a data-toggle="modal" href="#boardModal" class="btn btn-default pull-right">글삭제</a>
+        <% } %>
+      <form action="/board_view" method="post">
+        <input type="hidden" name="post_num" id="post_num" value="<%=rows[0].post_num%>"/>
+        <div >
+          <% if(rows[0].post_id==userId){ %>
+          <a href="/board_update/<%=rows[0].post_num%>" class="btn btn-default pull-right">글수정</a>
+          <% } %>
+          <a href="/board_list" class="btn btn-default pull-right">메인으로 돌아가기</a>
+        </div>
+        <table class="table table-bordered">
+          <tr style="border-bottom:2px dashed #d0d0d0">
+            <td style="padding-left : 20px"><h5><strong><%=rows[0].post_title%></strong></h5></td>
+          </tr>
+          <tr style="border-bottom:hidden">
+            <td style="padding-left : 20px"><%=rows[0].post_id%>&nbsp;&nbsp;|&nbsp;&nbsp;<%=rows[0].post_time%>&nbsp;&nbsp;|&nbsp;&nbsp;조회수&nbsp;&nbsp;<%=rows[0].post_hit%></td>
+          </tr>
+          <tr style="border-bottom:hidden">
+            <td >
+               <div style="padding-left : 20px"><%=rows[0].post_content%></div><br><br><br>
+            </td>
+          </tr>
+
+          <% if(rows[0].comm_count>0){ %>
+            <tr>
+              <td >
+                <table class="table table-bordered">
+                  <tr style="border-top:hidden; border-left:hidden; border-right:hidden;boarder-bottom: 1px solid">
+                    <td style="padding-left : 20px"><strong>댓글[<%=rows[0].comm_count%>]</strong></td>
+                  </tr>
+
+                <% for (var i = 0; i < rows.length; i++) { %>
+                <tr>
+                  <td bgcolor="#f0f0f0" style="border-bottom:2px dashed #d0d0d0" >
+                    <span style="padding-left : 20px"><strong><%=rows[i].comm_id%>&nbsp;&nbsp;</strong> <%=rows[i].comm_time%></span>
+                    <% if(rows[i].comm_id==userId){ %>
+                    <div class="pull-right" style="padding-right : 20px">
+                      <a href="/comm_update/<%=rows[0].post_num%>/<%=rows[i].comm_num%>" class="btn btn-default btn-xs pull-right">수정</a>
+                        <div id="commModal_<%=rows[i].comm_num%>" class="modal fade in">
+                          <div class="modal-dialog">
+                             <div class="modal-content">
+                                 <div class="modal-header">
+                                     <a class="btn btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span></a>
+                                     <h4 class="modal-title">댓글삭제</h4>
+                                 </div>
+                                 <div class="modal-body">
+                                     <h4>해당 댓글을 삭제하시겠습니까?</h4>
+                                 </div>
+                                 <div class="modal-footer">
+                                     <div class="btn-group">
+                                         <button class="btn btn-danger" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span>취소</button>
+                                         <a href="/comm_delete/<%=rows[0].post_num%>/<%=rows[i].comm_num%>" class="btn btn-primary">확인<span class=" pull-left glyphicon glyphicon-check"></span></a>
+                                     </div>
+                                 </div>
+                             </div><!-- /.modal-content -->
+                          </div><!-- /.modal-dalog -->
+                        </div><!-- /.modal -->
+                        <a data-toggle="modal" href="#commModal_<%=rows[i].comm_num%>" class="btn btn-default btn-xs pull-right">삭제</a>
+                    </div>
+                    <% } %>
+                    <br>
+
+                    <div style="padding-left : 20px"> <%=rows[i].comm_content%></div>
+                  </td>
+                </tr>
+                <% } %>
+
+                <% } else { %>
+                  <tr>
+                    <td >
+                      <table class="table table-bordered">
+                        <tr style="border-top:hidden; border-left:hidden; border-right:hidden;boarder-bottom: 1px solid">
+                          <td style="padding-left : 20px"><strong>댓글[0]</strong></td>
+                        </tr>
+                <% } %>
+
+          <tr>
+            <td bgcolor="#f0f0f0">
+              <div style="padding-left:20px;">
+                <div><textarea name="comm_content" cols="100" rows="3"></textarea></div>
+                  <div><input type="submit" class="button" value="등록" style="margin-left:695px"></div>
+              </div>
+            </td>
+
+          </tr>
+         </table>
+        </td>
+       </tr>
+      </table>
+     </form>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+  </body>
+</html>
