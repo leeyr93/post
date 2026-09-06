@@ -22,7 +22,7 @@ router.get('/:post_num', isLoggedIn, async (req, res) => {
       SELECT 
         post_num, post_id, post_title, post_content, 
         DATE_FORMAT(post_time, "%Y/%c/%e") AS post_time, 
-        post_hit, originalFileName, savedFileName,
+        post_hit,
         comm_num, comm_id, comm_content, 
         DATE_FORMAT(comm_time, "%Y/%c/%e") AS comm_time, 
         (SELECT COUNT(comm_num) FROM comment WHERE post_num = ?) AS comm_count
@@ -42,7 +42,7 @@ router.get('/:post_num', isLoggedIn, async (req, res) => {
       SELECT 
         post_num, post_id, post_title, post_content, 
         DATE_FORMAT(post_time, "%Y/%c/%e") AS post_time, 
-        post_hit, originalFileName, savedFileName,
+        post_hit,
         0 AS comm_count
       FROM board 
       WHERE post_num = ?

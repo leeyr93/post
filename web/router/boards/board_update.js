@@ -44,35 +44,12 @@ router.post('/', isLoggedIn, async (req, res) => {
   const {
     post_num: postNum,
     post_title: postTitle = '',
-    post_content: postContent = '',
-    originalFileName,
-    savedFileName,
-    fileSize,
-    filePath
+    post_content: postContent = ''
   } = req.body;
 
   try {
-    let result;
-    if (savedFileName) {
-      const sql = `
-        UPDATE board 
-        SET post_title = ?, post_content = ?, originalFileName = ?, savedFileName = ?, fileSize = ?, filePath = ? 
-        WHERE post_num = ? AND post_id = ?
-      `;
-      result = await db.query(sql, [
-        postTitle,
-        postContent,
-        originalFileName,
-        savedFileName,
-        fileSize,
-        filePath,
-        postNum,
-        postId
-      ]);
-    } else {
-      const sql = 'UPDATE board SET post_title = ?, post_content = ? WHERE post_num = ? AND post_id = ?';
-      result = await db.query(sql, [postTitle, postContent, postNum, postId]);
-    }
+    const sql = 'UPDATE board SET post_title = ?, post_content = ? WHERE post_num = ? AND post_id = ?';
+    const result = await db.query(sql, [postTitle, postContent, postNum, postId]);
 
     if (!result || result.affectedRows === 0) {
       return res

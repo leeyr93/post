@@ -16,7 +16,7 @@ CREATE TABLE IF NOT EXISTS `member` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Members Table';
 
--- 3. Board Table (Posts & File Attachments)
+-- 3. Board Table (Posts)
 CREATE TABLE IF NOT EXISTS `board` (
   `post_num` INT AUTO_INCREMENT COMMENT 'Post Primary Key',
   `post_id` VARCHAR(50) NOT NULL COMMENT 'Author User ID',
@@ -24,10 +24,6 @@ CREATE TABLE IF NOT EXISTS `board` (
   `post_content` TEXT NOT NULL COMMENT 'Post Content Body',
   `post_time` DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT 'Created Timestamp',
   `post_hit` INT DEFAULT 0 COMMENT 'View Hit Count',
-  `originalFileName` VARCHAR(255) DEFAULT NULL COMMENT 'Original Uploaded File Name',
-  `savedFileName` VARCHAR(255) DEFAULT NULL COMMENT 'Stored File Name on Server',
-  `fileSize` BIGINT DEFAULT NULL COMMENT 'File Size in Bytes',
-  `filePath` VARCHAR(500) DEFAULT NULL COMMENT 'Relative File Path on Server',
   PRIMARY KEY (`post_num`),
   KEY `idx_board_post_id` (`post_id`),
   KEY `idx_board_post_time` (`post_time`)

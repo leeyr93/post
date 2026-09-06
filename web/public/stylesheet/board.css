@@ -166,26 +166,9 @@ table.table-bordered tbody{
     margin-left: 0px;
     float: left;
   }
-
-  .btnupload1{
-    margin-top : -20px;
-  }
-
-}
-
-@media (min-width: 990px) {
-
-  .btnupload1{
-    margin-top : -70px;
-  }
-
-  .btnupload2{
-    margin-top: -40px;
-  }
 }
 
 @media (min-width: 1330px) {
-
   .main{
     width: calc(100% - 250px);
     margin-left: 250px;
@@ -195,12 +178,5 @@ table.table-bordered tbody{
     margin-left: 0px;
     float: left;
   }
-
-  .btnupload1{
-    margin-top : -70px;
-  }
-
-  .btnupload2{
-    margin-top: -40px;
-  }
 }
+

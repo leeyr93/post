@@ -7,19 +7,6 @@
     <title>글수정</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
     <link href="/stylesheet/board.css" rel="stylesheet" type="text/css">
-
-    <script type="text/javascript" language="javascript">
-      function popupUpdate(){
-        var popUrl = "uploadupdate";
-        var popOption ="width=400, height=360, resizable=no, scrollbars=no, status=no;";
-        window.open(popUrl,"",popOption);
-      }
-
-      function fileName(){
-        document.getElementById("FName").value =  document.getElementById("originalFileName").value;
-      }
-
-    </script>
   </head>
   <body>
     <nav class="navbar navbar-inverse sidebar" role="navigation">
@@ -55,10 +42,6 @@
                 <div class="well well-sm">
                   <fieldset>
                   <form action="/board_update" method="post">
-                    <input type="hidden" name="originalFileName" id="originalFileName"/>
-                    <input type="hidden" name="savedFileName" id = "savedFileName" />
-                    <input type="hidden" name="fileSize" id="fileSize" />
-                    <input type="hidden" name="filePath" id="filePath" />
                     <input type="hidden" name="post_num" value="<%=rows[0].post_num%>"/>
 
                     <!-- title input-->

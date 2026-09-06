@@ -20,35 +20,11 @@ router.post('/', isLoggedIn, async (req, res) => {
     return res.redirect('/login');
   }
 
-  const {
-    post_title: postTitle = '',
-    post_content: postContent = '',
-    originalFileName,
-    savedFileName,
-    fileSize,
-    filePath
-  } = req.body;
+  const { post_title: postTitle = '', post_content: postContent = '' } = req.body;
 
   try {
-    if (savedFileName) {
-      const sql = `
-        INSERT INTO board 
-        (post_id, post_title, post_content, originalFileName, savedFileName, fileSize, filePath) 
-        VALUES (?, ?, ?, ?, ?, ?, ?)
-      `;
-      await db.query(sql, [
-        postId,
-        postTitle,
-        postContent,
-        originalFileName,
-        savedFileName,
-        fileSize,
-        filePath
-      ]);
-    } else {
-      const sql = 'INSERT INTO board (post_id, post_title, post_content) VALUES (?, ?, ?)';
-      await db.query(sql, [postId, postTitle, postContent]);
-    }
+    const sql = 'INSERT INTO board (post_id, post_title, post_content) VALUES (?, ?, ?)';
+    await db.query(sql, [postId, postTitle, postContent]);
 
     return res.redirect('/board_list');
   } catch (err) {
