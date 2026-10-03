@@ -58,7 +58,7 @@ class _FindIdTabState extends State<_FindIdTab> {
         data: {'name': _nameController.text, 'email': _emailController.text},
       );
       if (response.data['success'] == true) {
-        setState(() { _foundId = response.data['userId']; });
+        setState(() { _foundId = response.data['data']['id']; });
       }
     } catch (e) {
       if (mounted) {

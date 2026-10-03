@@ -52,14 +52,27 @@ router.get('/', (req, res) => {
   if (errMsg && errMsg.length > 0) {
     msg = errMsg[0];
   }
-  if (msg === 'Missing credentials') {
-    msg = '아이디와 비밀번호를 입력해주세요';
-  }
+
   res.render('login/login.ejs', { message: msg });
 });
 
 router.post(
   '/',
+  (req, res, next) => {
+    const id = req.body.id;
+    const password = req.body.password;
+    if (!id && !password) {
+      req.flash('error', '아이디, 비밀번호를 입력해주세요.');
+      return res.redirect('/login');
+    } else if (!id) {
+      req.flash('error', '아이디를 입력해주세요.');
+      return res.redirect('/login');
+    } else if (!password) {
+      req.flash('error', '비밀번호를 입력해주세요.');
+      return res.redirect('/login');
+    }
+    next();
+  },
   passport.authenticate('local-login', {
     successRedirect: '/board_list',
     failureRedirect: '/login',

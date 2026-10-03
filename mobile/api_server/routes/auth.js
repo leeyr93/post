@@ -30,8 +30,12 @@ router.post('/join', async (req, res) => {
 router.post('/login', async (req, res) => {
   const { id = '', password = '' } = req.body;
 
-  if (!id || !password) {
-    return res.status(400).json({ success: false, message: '아이디와 비밀번호를 입력해주세요.' });
+  if (!id && !password) {
+    return res.status(400).json({ success: false, message: '아이디, 비밀번호를 입력해주세요.' });
+  } else if (!id) {
+    return res.status(400).json({ success: false, message: '아이디를 입력해주세요.' });
+  } else if (!password) {
+    return res.status(400).json({ success: false, message: '비밀번호를 입력해주세요.' });
   }
 
   try {

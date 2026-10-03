@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 import 'api_client.dart';
@@ -21,8 +22,14 @@ class _LoginScreenState extends State<LoginScreen> {
   Future<void> _handleLogin() async {
     setState(() { _serverError = ''; }); // 요청 전 에러 초기화
 
-    if (_idController.text.isEmpty || _pwController.text.isEmpty) {
-      setState(() { _serverError = '아이디와 비밀번호를 모두 입력해주세요.'; });
+    if (_idController.text.isEmpty && _pwController.text.isEmpty) {
+      setState(() { _serverError = '아이디, 비밀번호를 입력해주세요.'; });
+      return;
+    } else if (_idController.text.isEmpty) {
+      setState(() { _serverError = '아이디를 입력해주세요.'; });
+      return;
+    } else if (_pwController.text.isEmpty) {
+      setState(() { _serverError = '비밀번호를 입력해주세요.'; });
       return;
     }
 
@@ -49,8 +56,14 @@ class _LoginScreenState extends State<LoginScreen> {
     } catch (e) {
       if (mounted) {
         String errorMsg = '아이디 또는 비밀번호가 일치하지 않습니다.';
-        if (e is DioException && e.response?.data != null && e.response!.data is Map) {
-          errorMsg = e.response!.data['message'] ?? errorMsg;
+        if (e is DioException && e.response?.data != null) {
+          try {
+            var rData = e.response!.data;
+            if (rData is String) rData = jsonDecode(rData);
+            if (rData is Map && rData['message'] != null) {
+              errorMsg = rData['message'];
+            }
+          } catch (_) {}
         }
         // 에러를 토스트가 아닌 화면에 직접 노출
         setState(() { _serverError = errorMsg; });

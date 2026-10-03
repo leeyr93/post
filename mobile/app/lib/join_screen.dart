@@ -87,10 +87,6 @@ class _JoinScreenState extends State<JoinScreen> {
               const SizedBox(height: 10),
               TextFormField(
                 controller: _idController,
-                maxLength: 10,
-                inputFormatters: [
-                  FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z0-9]')),
-                ],
                 decoration: const InputDecoration(
                   labelText: '아이디',
                   hintText: '영문, 숫자 조합 1~10자',
@@ -101,7 +97,7 @@ class _JoinScreenState extends State<JoinScreen> {
                 validator: (value) {
                   if (value == null || value.isEmpty) return '아이디를 입력해주세요.';
                   if (!RegExp(r'^[A-Za-z0-9]{1,10}$').hasMatch(value)) {
-                    return '아이디는 영문과 숫자만 사용하여 1~10자로 입력해주세요.';
+                    return "아이디는 '특수문자를 제외한 문자 조합. 1-10자' 형식에 맞게 입력해주세요.";
                   }
                   return null;
                 },
@@ -110,7 +106,7 @@ class _JoinScreenState extends State<JoinScreen> {
               TextFormField(
                 controller: _pwController,
                 obscureText: true,
-                maxLength: 16,
+                
                 decoration: const InputDecoration(
                   labelText: '비밀번호',
                   hintText: '영문, 숫자, 특수문자 조합 8~16자',
@@ -121,7 +117,7 @@ class _JoinScreenState extends State<JoinScreen> {
                 validator: (value) {
                   if (value == null || value.isEmpty) return '비밀번호를 입력해주세요.';
                   if (!RegExp(r'''^(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#$%^&*()_+\-={}\[\]|;:'",.<>/?]).{8,16}$''').hasMatch(value)) {
-                    return '영문, 숫자, 특수문자를 모두 포함하여 8~16자로 입력해주세요.';
+                    return "비밀번호는 '영문, 숫자, 특수문자 조합. 8-16자' 형식에 맞게 입력해주세요.";
                   }
                   return null;
                 },
@@ -130,7 +126,7 @@ class _JoinScreenState extends State<JoinScreen> {
               TextFormField(
                 controller: _pwConfirmController,
                 obscureText: true,
-                maxLength: 16,
+                
                 decoration: const InputDecoration(
                   labelText: '비밀번호 확인',
                   hintText: '비밀번호 재입력',
@@ -139,18 +135,14 @@ class _JoinScreenState extends State<JoinScreen> {
                   errorMaxLines: 3, // 에러 메시지가 길 때 줄바꿈 허용
                 ),
                 validator: (value) {
-                  if (value == null || value.isEmpty) return '비밀번호를 한 번 더 입력해주세요.';
-                  if (value != _pwController.text) return '비밀번호가 일치하지 않습니다. 다시 확인해주세요.';
+                  if (value == null || value.isEmpty) return '비밀번호를 재입력해주세요.';
+                  if (value != _pwController.text) return '비밀번호가 일치하지 않습니다.';
                   return null;
                 },
               ),
               const SizedBox(height: 16),
               TextFormField(
                 controller: _nameController,
-                maxLength: 10, 
-                inputFormatters: [
-                  FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z가-힣]')),
-                ],
                 decoration: const InputDecoration(
                   labelText: '이름',
                   hintText: '한글 또는 영문 1~10자',
@@ -161,7 +153,7 @@ class _JoinScreenState extends State<JoinScreen> {
                 validator: (value) {
                   if (value == null || value.trim().isEmpty) return '이름을 입력해주세요.';
                   if (!RegExp(r'^[A-Za-z가-힣]{1,10}$').hasMatch(value.trim())) {
-                    return '이름은 한글이나 영문으로 1~10자 이내로 입력해주세요.';
+                    return "이름은 '숫자, 특수문자를 제외한 문자 조합. 1-10자' 형식에 맞게 입력해주세요.";
                   }
                   return null;
                 },
@@ -180,7 +172,7 @@ class _JoinScreenState extends State<JoinScreen> {
                 validator: (value) {
                   if (value == null || value.isEmpty) return '이메일을 입력해주세요.';
                   if (!RegExp(r'^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$').hasMatch(value)) {
-                    return '올바른 이메일 주소 형식이 아닙니다. (예: email@domain.com)';
+                    return "이메일은 '예) example@gmail.com' 형식에 맞게 입력해주세요.";
                   }
                   return null;
                 },
