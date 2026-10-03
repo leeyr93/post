@@ -101,7 +101,7 @@ class _BoardViewScreenState extends State<BoardViewScreen> {
       context: context,
       builder: (context) => AlertDialog(
         title: const Text('댓글 수정'),
-        content: TextField(controller: ctrl, decoration: const InputDecoration(hintText: '내용을 입력하세요')),
+        content: Semantics(identifier: 'edit_comment_input', child: TextField(controller: ctrl, decoration: const InputDecoration(hintText: '내용을 입력하세요'))),
         actions: [
           TextButton(onPressed: () => Navigator.pop(context, false), child: const Text('취소')),
           ElevatedButton(
@@ -123,7 +123,7 @@ class _BoardViewScreenState extends State<BoardViewScreen> {
                 Navigator.pop(context, false);
               }
             },
-            child: const Text('수정'),
+            child: Semantics(identifier: 'edit_comment_submit_btn', child: const Text('수정')),
           ),
         ],
       ),
@@ -142,7 +142,7 @@ class _BoardViewScreenState extends State<BoardViewScreen> {
         title: const Text('게시글 상세'),
         actions: [
           if (ApiClient().currentUserId == _post!['post_id'])
-            PopupMenuButton<String>(
+            Semantics(identifier: 'post_more_btn', child: PopupMenuButton<String>(
               icon: const Icon(Icons.more_vert),
             onSelected: (value) async {
               if (value == 'edit') {
@@ -162,10 +162,10 @@ class _BoardViewScreenState extends State<BoardViewScreen> {
               }
             },
             itemBuilder: (context) => [
-              const PopupMenuItem(value: 'edit', child: Text('글 수정')),
-              const PopupMenuItem(value: 'delete', child: Text('글 삭제', style: TextStyle(color: Colors.red))),
+              PopupMenuItem(value: 'edit', child: Semantics(identifier: 'post_menu_edit', child: Text('글 수정'))),
+              PopupMenuItem(value: 'delete', child: Semantics(identifier: 'post_menu_delete', child: Text('글 삭제', style: TextStyle(color: Colors.red)))),
             ],
-          ),
+          )),
         ],
       ),
       body: Column(
@@ -199,23 +199,23 @@ class _BoardViewScreenState extends State<BoardViewScreen> {
                   ),
                   subtitle: Padding(
                     padding: const EdgeInsets.only(top: 4.0),
-                    child: Text(
+                    child: Semantics(identifier: 'comment_content_${comm['comm_content']}', child: Text(
                       comm['comm_content'], 
                       style: const TextStyle(fontSize: 16, color: Colors.black87)
-                    ),
+                    )),
                   ),
                   trailing: ApiClient().currentUserId == comm['comm_id']
-                    ? PopupMenuButton<String>(
+                    ? Semantics(identifier: 'comment_more_btn_${comm['comm_content']}', child: PopupMenuButton<String>(
                         icon: const Icon(Icons.more_horiz, size: 20),
                         onSelected: (value) {
                           if (value == 'edit') _showEditCommentDialog(comm['comm_num'], comm['comm_content']);
                           else if (value == 'delete') _deleteComment(comm['comm_num']);
                         },
                         itemBuilder: (context) => [
-                          const PopupMenuItem(value: 'edit', child: Text('수정')),
-                          const PopupMenuItem(value: 'delete', child: Text('삭제', style: TextStyle(color: Colors.red))),
+                          PopupMenuItem(value: 'edit', child: Semantics(identifier: 'comment_menu_edit', child: Text('수정'))),
+                          PopupMenuItem(value: 'delete', child: Semantics(identifier: 'comment_menu_delete', child: Text('삭제', style: TextStyle(color: Colors.red)))),
                         ],
-                      )
+                      ))
                     : null,
                 )),
               ],
@@ -227,14 +227,14 @@ class _BoardViewScreenState extends State<BoardViewScreen> {
               child: Row(
                 children: [
                   Expanded(
-                    child: TextField(
+                    child: Semantics(identifier: 'comment_input', child: TextField(
                       controller: _commentController,
                       decoration: InputDecoration(
                         hintText: '댓글을 입력하세요...', 
                         border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
                         contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                       ),
-                    ),
+                    )),
                   ),
                   const SizedBox(width: 8),
                   SizedBox(
@@ -246,7 +246,7 @@ class _BoardViewScreenState extends State<BoardViewScreen> {
                         foregroundColor: Colors.white,
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                       ),
-                      child: const Text('등록', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+                      child: Semantics(identifier: 'comment_submit_btn', child: const Text('등록', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16))),
                     ),
                   ),
                 ],

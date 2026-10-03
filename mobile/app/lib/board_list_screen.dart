@@ -71,7 +71,7 @@ class _BoardListScreenState extends State<BoardListScreen> {
             child: Row(
               children: [
                 Expanded(
-                  child: TextField(
+                  child: Semantics(identifier: 'search_input', child: TextField(
                     controller: _searchController,
                     decoration: const InputDecoration(
                       hintText: '제목으로 검색하세요',
@@ -79,7 +79,7 @@ class _BoardListScreenState extends State<BoardListScreen> {
                       contentPadding: EdgeInsets.symmetric(horizontal: 16),
                     ),
                     onSubmitted: (value) => _fetchPosts(value),
-                  ),
+                  )),
                 ),
                 const SizedBox(width: 8),
                 IconButton(
@@ -93,8 +93,8 @@ class _BoardListScreenState extends State<BoardListScreen> {
             child: _isLoading
                 ? const Center(child: CircularProgressIndicator())
                 : _posts.isEmpty
-                    ? const Center(child: Text('게시글이 없습니다.'))
-                    : ListView.builder(
+                    ? Center(child: Semantics(identifier: 'empty_result_msg', child: const Text('게시글이 없습니다.')))
+                    : Semantics(identifier: 'search_results_list', child: ListView.builder(
                         itemCount: _posts.length,
                         itemBuilder: (context, index) {
                           final post = _posts[index];
@@ -113,7 +113,7 @@ class _BoardListScreenState extends State<BoardListScreen> {
                             },
                           );
                         },
-                      ),
+                      )),
           ),
         ],
       ),

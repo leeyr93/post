@@ -198,7 +198,7 @@ class _JoinScreenState extends State<JoinScreen> {
                   style: ElevatedButton.styleFrom(backgroundColor: Colors.lightBlue[300]),
                   child: _isLoading 
                       ? const CircularProgressIndicator(color: Colors.white) 
-                      : const Text('회원가입', style: TextStyle(fontSize: 18, color: Colors.white, fontWeight: FontWeight.bold)),
+                      : Semantics(identifier: 'btn_submit_signup', child: const Text('회원가입', style: TextStyle(fontSize: 18, color: Colors.white, fontWeight: FontWeight.bold))),
                 ),
               )
             ],
