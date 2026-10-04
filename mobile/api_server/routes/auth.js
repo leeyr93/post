@@ -125,10 +125,14 @@ router.post('/find_pw', async (req, res) => {
 
 // [POST] /api/auth/re_pw : 비밀번호 재설정 처리
 router.post('/re_pw', async (req, res) => {
-  const { id = '', password = '' } = req.body;
+  const { id = '', password = '', repassword = '' } = req.body;
 
   if (!id || !password) {
     return res.status(400).json({ success: false, message: '새로운 비밀번호를 입력해주세요.' });
+  }
+
+  if (password !== repassword) {
+    return res.status(400).json({ success: false, message: '비밀번호가 일치하지 않습니다.' });
   }
 
   try {

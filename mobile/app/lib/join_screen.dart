@@ -183,10 +183,13 @@ class _JoinScreenState extends State<JoinScreen> {
                 Container(
                   width: double.infinity,
                   padding: const EdgeInsets.only(bottom: 16),
-                  child: Text(
-                    _serverError,
-                    style: const TextStyle(color: Colors.red, fontWeight: FontWeight.bold, fontSize: 14),
-                    textAlign: TextAlign.center,
+                  child: Semantics(
+                    label: _serverError,
+                    child: Text(
+                      _serverError,
+                      style: const TextStyle(color: Colors.red, fontWeight: FontWeight.bold, fontSize: 14),
+                      textAlign: TextAlign.center,
+                    ),
                   ),
                 ),
 

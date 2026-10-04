@@ -89,7 +89,7 @@ class _FindIdTabState extends State<_FindIdTab> {
           if (_serverError.isNotEmpty)
             Container(
               padding: const EdgeInsets.only(bottom: 16),
-              child: Text(_serverError, style: const TextStyle(color: Colors.red, fontWeight: FontWeight.bold)),
+              child: Semantics(container: true, label: _serverError, child: Text(_serverError, style: const TextStyle(color: Colors.red, fontWeight: FontWeight.bold))),
             ),
 
           SizedBox(
@@ -104,10 +104,13 @@ class _FindIdTabState extends State<_FindIdTab> {
             Container(
               padding: const EdgeInsets.all(16),
               color: Colors.blue.shade50,
-              child: Text(
+              child: Semantics(
+                label: '회원님의 아이디는 [ $_foundId ] 입니다.',
+                child: Text(
                 '회원님의 아이디는 [ $_foundId ] 입니다.', 
                 style: const TextStyle(fontSize: 18, color: Colors.blue, fontWeight: FontWeight.bold),
                 textAlign: TextAlign.center,
+              ),
               ),
             ),
         ],
@@ -127,6 +130,7 @@ class _FindPwTabState extends State<_FindPwTab> {
   final _nameController = TextEditingController();
   final _emailController = TextEditingController();
   final _newPwController = TextEditingController();
+  final _newPwConfirmController = TextEditingController();
   
   bool _isLoading = false;
   bool _isVerified = false;
@@ -170,12 +174,20 @@ class _FindPwTabState extends State<_FindPwTab> {
       setState(() { _serverError = '새 비밀번호를 입력해주세요.'; });
       return;
     }
+    if (_newPwConfirmController.text.isEmpty) {
+      setState(() { _serverError = '새 비밀번호를 재입력해주세요.'; });
+      return;
+    }
+    if (_newPwController.text != _newPwConfirmController.text) {
+      setState(() { _serverError = '비밀번호가 일치하지 않습니다.'; });
+      return;
+    }
 
     setState(() { _isLoading = true; });
     try {
       final response = await ApiClient().dio.post(
         '/api/auth/re_pw',
-        data: {'id': _idController.text, 'new_password': _newPwController.text},
+        data: {'id': _idController.text, 'password': _newPwController.text, 'repassword': _newPwConfirmController.text},
       );
       if (response.data['success'] == true) {
         if (mounted) {
@@ -213,7 +225,7 @@ class _FindPwTabState extends State<_FindPwTab> {
           if (_serverError.isNotEmpty && !_isVerified)
             Container(
               padding: const EdgeInsets.only(bottom: 16),
-              child: Text(_serverError, style: const TextStyle(color: Colors.red, fontWeight: FontWeight.bold)),
+              child: Semantics(container: true, label: _serverError, child: Text(_serverError, style: const TextStyle(color: Colors.red, fontWeight: FontWeight.bold))),
             ),
 
           if (!_isVerified)
@@ -228,12 +240,14 @@ class _FindPwTabState extends State<_FindPwTab> {
           if (_isVerified) ...[
             const Divider(height: 40, thickness: 1),
             TextField(controller: _newPwController, obscureText: true, decoration: const InputDecoration(labelText: '새 비밀번호', border: OutlineInputBorder())),
+            const SizedBox(height: 16),
+            TextField(controller: _newPwConfirmController, obscureText: true, decoration: const InputDecoration(labelText: '새 비밀번호 확인', hintText: '비밀번호 재입력', border: OutlineInputBorder())),
             const SizedBox(height: 24),
             
             if (_serverError.isNotEmpty)
               Container(
                 padding: const EdgeInsets.only(bottom: 16),
-                child: Text(_serverError, style: const TextStyle(color: Colors.red, fontWeight: FontWeight.bold)),
+                child: Semantics(container: true, label: _serverError, child: Text(_serverError, style: const TextStyle(color: Colors.red, fontWeight: FontWeight.bold))),
               ),
 
             SizedBox(

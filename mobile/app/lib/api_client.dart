@@ -1,3 +1,4 @@
+import 'dart:io' show Platform;
 import 'package:dio/dio.dart';
 import 'package:cookie_jar/cookie_jar.dart';
 import 'package:dio_cookie_manager/dio_cookie_manager.dart';
@@ -15,8 +16,7 @@ class ApiClient {
   ApiClient._internal() {
     dio = Dio(BaseOptions(
       // [주의] iOS 시뮬레이터는 localhost, Android 에뮬레이터는 10.0.2.2 를 사용합니다.
-      // 현재는 로컬 웹서버와 통신하기 위해 세팅해 두었습니다.
-      baseUrl: 'http://127.0.0.1:50006', 
+      baseUrl: Platform.isAndroid ? 'http://10.0.2.2:50006' : 'http://127.0.0.1:50006', 
       connectTimeout: const Duration(seconds: 5),
       receiveTimeout: const Duration(seconds: 3),
       contentType: Headers.jsonContentType, 
