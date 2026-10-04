@@ -1,14 +1,15 @@
-# Node.js 웹 게시판 서비스
+# Web / App 게시판 서비스
 
-> Node.js(Express)와 MySQL 기반의 **웹 게시판 서비스** 프로젝트입니다.
+> Web 및 App(iOS / Android) 환경을 지원하는 **게시판 서비스** 프로젝트입니다.
 
 ---
 
 ## 기술 스택
 
-- **Backend**: Node.js, Express, Passport.js (Local Auth), Bcrypt
+- **Backend**: Node.js, Express
 - **Database**: MySQL 8.0+
-- **Frontend**: EJS (Server-Side Rendering), Bootstrap, CSS
+- **Frontend**: EJS (Server-Side Rendering), Bootstrap
+- **App**: Flutter (iOS / Android)
 
 ---
 
@@ -35,4 +36,7 @@ mysql -u root -p < schema.sql
 ```bash
 # 웹 서버 실행 (http://localhost:50005)
 npm run start:web
+
+# 모바일 API 서버 실행 (http://localhost:50006)
+npm run start:mobile
 ```
